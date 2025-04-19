@@ -27,6 +27,7 @@ builder.Services.AddSingleton(new InteractionService(client));
 builder.Services.AddSingleton<StartupService>();
 
 builder.Services.AddHostedService<DiscordBotService>();
+builder.Services.AddHostedService<PurgeService>();
 
 var host = builder.Build();
 host.Run();
