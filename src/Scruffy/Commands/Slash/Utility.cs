@@ -1,9 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using Discord.Commands;
+using Discord.Interactions;
+using RunMode = Discord.Commands.RunMode;
 
 namespace Scruffy.Commands.Slash;
 
-public class Utility : ModuleBase
+public class Utility : InteractionModuleBase
 {
     [Command("ping",
         true,
@@ -11,7 +13,7 @@ public class Utility : ModuleBase
         RunMode = RunMode.Async)]
     public async Task PingAsync()
     {
-        await ReplyAsync("Pong!")
+        await RespondAsync("Pong!")
             .ConfigureAwait(false);
     }
 }
