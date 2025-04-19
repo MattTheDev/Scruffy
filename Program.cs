@@ -10,13 +10,13 @@ var socketConfig = new DiscordSocketConfig
 {
     LogLevel = LogSeverity.Verbose,
     GatewayIntents =
-        GatewayIntents.GuildVoiceStates |
-        GatewayIntents.GuildScheduledEvents |
-        GatewayIntents.DirectMessages |
-        GatewayIntents.GuildIntegrations |
-        GatewayIntents.GuildMessageReactions |
-        GatewayIntents.Guilds |
-        GatewayIntents.GuildMessages,
+    //    GatewayIntents.GuildVoiceStates |
+    //    GatewayIntents.GuildScheduledEvents |
+    //    GatewayIntents.DirectMessages |
+    //    GatewayIntents.GuildIntegrations |
+    //    GatewayIntents.GuildMessageReactions |
+    GatewayIntents.Guilds,
+    //    GatewayIntents.GuildMessages,
     UseInteractionSnowflakeDate = false,
 };
 

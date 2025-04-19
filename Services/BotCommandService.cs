@@ -7,15 +7,11 @@ namespace Scruffy.Services;
 
 public class BotCommandService(DiscordSocketClient discordSocketClient,
     IServiceProvider serviceProvider,
-    InteractionService interactionService,
-    CommandService commandService)
+    InteractionService interactionService)
 {
     public async Task Init()
     {
         await interactionService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider)
-            .ConfigureAwait(false);
-        await commandService.AddModulesAsync(Assembly.GetEntryAssembly(),
-                serviceProvider)
             .ConfigureAwait(false);
 
         await interactionService.RegisterCommandsGloballyAsync()
