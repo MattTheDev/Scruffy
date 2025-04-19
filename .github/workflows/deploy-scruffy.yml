@@ -13,31 +13,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Setup .NET SDK
-      - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.203
-
-      # Step 3: Restore dependencies
+      # Step 2: Restore dependencies
       - name: Restore dependencies
         run: dotnet restore Scruffy.sln
 
-      # Step 4: Build the project
+      # Step 3: Build the project
       - name: Build CouchBot.Services.Discord.ReclinerBot
         run: dotnet build src/Scruffy/Scruffy.csproj --configuration Release
 
-      # Step 5: Publish the project for Linux
+      # Step 4: Publish the project for Linux
       - name: Publish Scruffy for Linux
         run: |
           dotnet publish src/Scruffy/Scruffy.csproj --configuration Release --runtime linux-x64 --output ./publish
 
-      # Step 6: Stop Scruffy Service
+      # Step 5: Stop Scruffy Service
       - name: Stop Service
         run: |
           systemctl stop Scruffy.service
 
-      # Step 7: Backup the existing service
+      # Step 6: Backup the existing service
       - name: Backup existing service
         run: |
           TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
@@ -45,12 +39,12 @@ jobs:
           mkdir -p "$BACKUP_DIR"
           tar czf "$BACKUP_DIR/ReclinerBot-$TIMESTAMP.tar.gz" -C /srv Scruffy
 
-      # Step 8: Start ReclinerBot Service
+      # Step 7: Start ReclinerBot Service
       - name: Start Service
         run: |
           systemctl start Scruffy.service
 
-      # Step 9: Copy the published files to /home/test/service on the self-hosted runner
+      # Step 8: Copy the published files to /home/test/service on the self-hosted runner
       - name: Copy to /srv/Scruffy
         run: |
           sudo mkdir -p /srv/Scruffy
