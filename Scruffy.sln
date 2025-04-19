@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scruffy", "Scruffy.csproj", "{9E0208BD-59D2-45D9-974F-BDFD2F978381}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scruffy", "src\Scruffy\Scruffy.csproj", "{9E0208BD-59D2-45D9-974F-BDFD2F978381}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scruffy.Data", "src\Scruffy.Data\Scruffy.Data.csproj", "{3DF3190F-1C94-47DA-B472-4295BA9D677D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9E0208BD-59D2-45D9-974F-BDFD2F978381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E0208BD-59D2-45D9-974F-BDFD2F978381}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E0208BD-59D2-45D9-974F-BDFD2F978381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DF3190F-1C94-47DA-B472-4295BA9D677D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DF3190F-1C94-47DA-B472-4295BA9D677D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DF3190F-1C94-47DA-B472-4295BA9D677D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DF3190F-1C94-47DA-B472-4295BA9D677D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

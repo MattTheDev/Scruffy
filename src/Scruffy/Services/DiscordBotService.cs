@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Scruffy.Data;
 
 namespace Scruffy.Services;
 
@@ -7,11 +8,17 @@ public class DiscordBotService(
     StartupService startupService,
     DiscordSocketClient discordSocketClient,
     ILogger<DiscordBotService> logger,
-    BotCommandService commandService)
+    BotCommandService commandService,
+    IServiceScopeFactory serviceScopeFactory)
     : IHostedService
 {
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        // Ensure database is configured / created.
+        var scope = serviceScopeFactory.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ScruffyDbContext>();
+        await dbContext.Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
+
         await startupService.StartAsync();
 
         while (discordSocketClient.CurrentUser == null)

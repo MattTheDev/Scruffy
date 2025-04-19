@@ -2,21 +2,20 @@ using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
+using Scruffy.Data;
 using Scruffy.Services;
 
 var builder = Host.CreateApplicationBuilder(args);
+
+// Setup data structure
+builder.Services.AddDbContext<ScruffyDbContext>();
 
 var socketConfig = new DiscordSocketConfig
 {
     LogLevel = LogSeverity.Verbose,
     GatewayIntents =
-    //    GatewayIntents.GuildVoiceStates |
-    //    GatewayIntents.GuildScheduledEvents |
-    //    GatewayIntents.DirectMessages |
-    //    GatewayIntents.GuildIntegrations |
-    //    GatewayIntents.GuildMessageReactions |
-    GatewayIntents.Guilds,
-    //    GatewayIntents.GuildMessages,
+GatewayIntents.Guilds |
+           GatewayIntents.GuildMessages,
     UseInteractionSnowflakeDate = false,
 };
 
