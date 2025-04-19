@@ -35,7 +35,8 @@ public class DiscordBotService(
                 .ConfigureAwait(false);
         }
 
-        logger.LogInformation($"Discord user connected: {discordSocketClient.CurrentUser.Username}");
+        logger.LogInformation("Discord user connected: {User}",
+            discordSocketClient.CurrentUser.Username);
 
         await commandService.Init();
     }

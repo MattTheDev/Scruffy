@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Microsoft.Extensions.Options;
 
 namespace Scruffy.Services;
 

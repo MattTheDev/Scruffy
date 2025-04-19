@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Scruffy-dfd1c7a3-97db-438e-9694-93710d683c0f</UserSecretsId>
   </PropertyGroup>

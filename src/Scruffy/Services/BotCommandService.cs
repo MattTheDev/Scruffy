@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
 
