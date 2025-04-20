@@ -72,6 +72,6 @@ Value = $"Servers: {serverCount}\r\n" +
         $"Average Purge Interval: {averagePurgeTime}"
         });
 
-        await RespondAsync(embed: embedBuilder.Build());
+        await FollowupAsync(embed: embedBuilder.Build());
     }
 }
