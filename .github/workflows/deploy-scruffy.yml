@@ -27,9 +27,9 @@ jobs:
           dotnet publish src/Scruffy/Scruffy.csproj --configuration Release --runtime linux-x64 --output ./publish
 
       # Step 5: Stop Scruffy Service
-      #- name: Stop Service
-      #  run: |
-      #    systemctl stop Scruffy.service
+      - name: Stop Service
+        run: |
+          systemctl stop Scruffy.service
 
       # Step 6: Backup the existing service
       - name: Backup existing service
