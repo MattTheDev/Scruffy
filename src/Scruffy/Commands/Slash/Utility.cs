@@ -1,15 +1,13 @@
-﻿using Discord.Commands;
-using Discord.Interactions;
-using RunMode = Discord.Commands.RunMode;
+﻿using Discord.Interactions;
 
 namespace Scruffy.Commands.Slash;
 
 public class Utility : InteractionModuleBase
 {
-    [Command("ping",
-        true,
+    [SlashCommand("ping",
         "You want da pong?!",
-        RunMode = RunMode.Async)]
+        true,
+        RunMode.Async)]
     public async Task PingAsync()
     {
         await RespondAsync("Pong!")
