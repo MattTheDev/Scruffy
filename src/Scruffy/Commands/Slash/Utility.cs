@@ -57,8 +57,8 @@ public class Utility(IServiceScopeFactory serviceScopeFactory,
             "Scruffy grants access to and purges old messages in a channel made for debate, posting things that make us grumpy, or rants. " +
             "These messages are only meant to be timeboxed .. hence Scruffy!";
 
-        var serverCount = channels.Select(x => x.GuildId).Distinct();
-        var channelCount = channels.Select(x => x.ChannelId).Distinct();
+        var serverCount = channels.Select(x => x.GuildId).Distinct().Count();
+        var channelCount = channels.Select(x => x.ChannelId).Distinct().Count();
         var purgeCount = channels.Sum(x => x.PurgeCount);
         var averagePurgeTime = channels.Average(x => x.PurgeInterval);
 
