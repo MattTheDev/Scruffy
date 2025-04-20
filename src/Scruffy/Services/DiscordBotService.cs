@@ -17,7 +17,7 @@ public class DiscordBotService(
         // Ensure database is configured / created.
         var scope = serviceScopeFactory.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ScruffyDbContext>();
-        await dbContext.Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
+        dbContext.Database.EnsureCreated();
 
         await startupService.StartAsync();
 
