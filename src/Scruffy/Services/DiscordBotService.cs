@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using Scruffy.Data;
 
 namespace Scruffy.Services;
@@ -17,7 +18,7 @@ public class DiscordBotService(
         // Ensure database is configured / created.
         var scope = serviceScopeFactory.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ScruffyDbContext>();
-        dbContext.Database.EnsureCreated();
+        await dbContext.Database.MigrateAsync(cancellationToken);
 
         await startupService.StartAsync();
 
