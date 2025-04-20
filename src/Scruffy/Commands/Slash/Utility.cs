@@ -7,7 +7,7 @@ using Scruffy.Data;
 namespace Scruffy.Commands.Slash;
 
 public class Utility(IServiceScopeFactory serviceScopeFactory,
-    Logger<Utility> logger,
+    ILogger<Utility> logger,
     DiscordSocketClient discordSocketClient) : InteractionModuleBase
 {
     [SlashCommand("ping",
