@@ -9,7 +9,8 @@ namespace Scruffy.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite($"Data Source={AppContext.BaseDirectory}\\scruffy.db");
+            var databasePath = Path.Combine(AppContext.BaseDirectory, "scruffy.db");
+            options.UseSqlite($"Data Source={databasePath}");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
