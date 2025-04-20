@@ -62,7 +62,7 @@ public class Utility(IServiceScopeFactory serviceScopeFactory,
         var purgeCount = channels.Sum(x => x.PurgeCount);
         var averagePurgeTime = channels.Average(x => x.PurgeInterval);
 
-        embedBuilder.AddField(new EmbedFieldBuilder()
+        embedBuilder.AddField(new EmbedFieldBuilder
         {
 IsInline = true,
 Name = "Stats",

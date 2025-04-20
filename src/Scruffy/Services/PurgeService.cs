@@ -42,7 +42,7 @@ var allMessages = new List<IMessage>();
                 }
 
                 var messagesToRemove = allMessages.Where(x =>
-                    x.CreatedAt.DateTime > DateTime.UtcNow.AddMinutes(channel.PurgeInterval))
+                    x.CreatedAt.DateTime > DateTime.UtcNow.AddMinutes(-channel.PurgeInterval))
                     .ToList();
 
                 foreach (var message in messagesToRemove)
