@@ -102,7 +102,7 @@ public class Points(IServiceScopeFactory serviceScopeFactory,
 
         if (existingUser == null)
         {
-            existingUser = new User
+            existingUser = new Data.Entities.User
             {
                 Id = guildUser.Id.ToString(),
                 CreatedDate = DateTime.UtcNow,
