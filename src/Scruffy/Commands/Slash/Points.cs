@@ -144,7 +144,7 @@ public class Points(IServiceScopeFactory serviceScopeFactory,
             .SaveChangesAsync()
             .ConfigureAwait(false);
 
-        await FollowupAsync($"{Context.User.Username} has granted a point to {guildUser.Username} for: \r\n\r\n" +
+        await FollowupAsync($"{Context.User.Mention} has granted a point to {guildUser.Mention} for: \r\n\r\n" +
                             $"https://discord.com/channels/{Context.Guild.Id}/{Context.Channel.Id}/{messageId}");
     }
 }
