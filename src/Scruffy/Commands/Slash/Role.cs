@@ -15,7 +15,7 @@ public class Role : InteractionModuleBase
         string label,
         IRole role)
     {
-        await DeferAsync(true);
+        await DeferAsync();
 
         var embedBuilder = new EmbedBuilder();
         embedBuilder.Description = body;
