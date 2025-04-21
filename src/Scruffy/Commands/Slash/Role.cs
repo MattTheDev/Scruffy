@@ -44,6 +44,8 @@ public class Role(DiscordSocketClient discordSocketClient,
 
         var newRole = new Data.Entities.Role
         {
+            GuildId = Context.Guild.Id.ToString(),
+            ChannelId = Context.Channel.Id.ToString(),
             MessageId = messageId,
             Emote = emote,
             RoleId = role.Id.ToString(),

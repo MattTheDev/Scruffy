@@ -6,6 +6,7 @@ using Scruffy.Data;
 namespace Scruffy.Services;
 
 public class DiscordBotService(
+    MessageInteractionService messageInteractionService,
     StartupService startupService,
     DiscordSocketClient discordSocketClient,
     ILogger<DiscordBotService> logger,
@@ -40,6 +41,7 @@ public class DiscordBotService(
             discordSocketClient.CurrentUser.Username);
 
         await commandService.Init();
+        messageInteractionService.Init();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
