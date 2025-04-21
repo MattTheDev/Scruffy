@@ -70,9 +70,27 @@ public class Points(IServiceScopeFactory serviceScopeFactory,
         "Grant a point to a user",
         false,
         RunMode.Async)]
-    public async Task GrantAsync(IGuildUser guildUser)
+    public async Task GrantAsync(IGuildUser guildUser,
+        string messageId)
     {
         await DeferAsync();
+
+        if (!ulong.TryParse(messageId, out var validMessageId))
+        {
+            await FollowupAsync("Invalid message ID was provided. Try again.");
+            return;
+        }
+
+        var validMessage = await Context
+            .Channel
+            .GetMessageAsync(validMessageId)
+            .ConfigureAwait(false);
+
+        if (validMessage == null)
+        {
+            await FollowupAsync("Invalid message ID was provided. Try again.");
+            return;
+        }
 
         var scope = serviceScopeFactory.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ScruffyDbContext>();
@@ -126,6 +144,7 @@ public class Points(IServiceScopeFactory serviceScopeFactory,
             .SaveChangesAsync()
             .ConfigureAwait(false);
 
-        await FollowupAsync($"{Context.User.Username} has granted a point to {guildUser.Username}.");
+        await FollowupAsync($"{Context.User.Username} has granted a point to {guildUser.Username} for: \r\n\r\n" +
+                            $"https://discord.com/channels/{Context.Guild.Id}/{Context.Channel.Id}/{messageId}");
     }
 }
