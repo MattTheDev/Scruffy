@@ -11,7 +11,6 @@ public class Role : InteractionModuleBase
         true,
         RunMode.Async)]
     public async Task SetupAsync(string body, 
-        string messageId,
         string emote,
         string label,
         IRole role)
