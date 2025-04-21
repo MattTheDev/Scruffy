@@ -34,6 +34,10 @@ public class Utility(IServiceScopeFactory serviceScopeFactory,
             .Channels
             .ToListAsync()
             .ConfigureAwait(false);
+        var pointLogCount = await dbContext
+            .PointLogs
+            .CountAsync()
+            .ConfigureAwait(false);
 
         var embedBuilder = new EmbedBuilder();
         var authorBuilder = new EmbedAuthorBuilder();
@@ -69,7 +73,8 @@ Name = "Stats",
 Value = $"Servers: {serverCount}\r\n" +
         $"Channels: {channelCount}\r\n" +
         $"Purged Messages: {purgeCount}\r\n" +
-        $"Average Purge Interval: {averagePurgeTime}"
+        $"Average Purge Interval: {averagePurgeTime}\r\n" +
+        $"Points Granted: {pointLogCount}"
         });
 
         await FollowupAsync(embed: embedBuilder.Build());
