@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Interactions;
+using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using Scruffy.Data;
 using Scruffy.Data.Entities;
@@ -7,7 +8,8 @@ using Scruffy.Data.Entities;
 namespace Scruffy.Commands.Slash;
 
 [Group("point", "Command group for Point system")]
-public class Points(IServiceScopeFactory serviceScopeFactory) : InteractionModuleBase
+public class Points(IServiceScopeFactory serviceScopeFactory,
+    DiscordSocketClient discordSocketClient) : InteractionModuleBase
 {
     [SlashCommand("leaderboard",
         "View leaderboard of points granted",
@@ -15,7 +17,53 @@ public class Points(IServiceScopeFactory serviceScopeFactory) : InteractionModul
         RunMode.Async)]
     public async Task LeaderboardAsync(bool global = true)
     {
-        // Global Leaderboard Goes Here
+        await DeferAsync();
+
+        var scope = serviceScopeFactory.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ScruffyDbContext>();
+
+        var top10Points = await dbContext
+            .Users
+            .OrderByDescending(x => x.Points)
+            .Take(10)
+            .ToListAsync()
+            .ConfigureAwait(false);
+
+        var embedBuilder = new EmbedBuilder();
+        var authorBuilder = new EmbedAuthorBuilder();
+        var footerBuilder = new EmbedFooterBuilder();
+
+        authorBuilder.IconUrl = discordSocketClient.CurrentUser.GetAvatarUrl();
+        authorBuilder.Name = "Scruffy the Server Janitor";
+        authorBuilder.Url = "https://mattthedev.codes";
+
+        footerBuilder.IconUrl = discordSocketClient.CurrentUser.GetAvatarUrl();
+        footerBuilder.Text = "Cleaning Servers since 4/20/2025";
+
+        embedBuilder.Author = authorBuilder;
+        embedBuilder.Footer = footerBuilder;
+        embedBuilder.WithCurrentTimestamp();
+
+        embedBuilder.ThumbnailUrl = "https://mattthedev.codes/wp-content/uploads/2020/11/mtdCODES.png";
+        embedBuilder.Title = "Top 10 Global Point Leaders";
+        embedBuilder.Description =
+            "Points are granted between users for counterpoints, well thought out posts, etc. Below are the top 10 point leaders globally.";
+
+        var userList = new List<(string, int)>();
+        foreach (var user in top10Points)
+        {
+            var u = await discordSocketClient.GetUserAsync(ulong.Parse(user.Id));
+            userList.Add((u.Username, user.Points));
+        }
+
+        embedBuilder.AddField(new EmbedFieldBuilder
+        {
+            IsInline = true,
+            Name = "Stats",
+            Value = userList.Select(x => $"{x.Item1} - {x.Item2}\r\n")
+        });
+
+        await FollowupAsync(embed: embedBuilder.Build());
     }
 
     [SlashCommand("grant",
@@ -66,7 +114,8 @@ public class Points(IServiceScopeFactory serviceScopeFactory) : InteractionModul
         {
             GrantorId = Context.User.Id.ToString(),
             GranteeId = guildUser.Id.ToString(),
-            GrantedDate = DateTime.UtcNow
+            GrantedDate = DateTime.UtcNow,
+            GuildId = Context.Guild.Id.ToString(),
         };
 
         await dbContext

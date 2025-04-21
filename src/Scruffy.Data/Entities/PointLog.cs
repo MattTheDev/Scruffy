@@ -11,5 +11,6 @@ public class PointLog
 
     public string GrantorId { get; set; }
     public string GranteeId { get; set; }
+    public string GuildId { get; set; }
     public DateTime GrantedDate { get; set; }
 }
