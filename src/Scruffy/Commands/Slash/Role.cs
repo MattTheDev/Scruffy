@@ -1,14 +1,10 @@
 ﻿using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
-using Scruffy.Data;
 
 namespace Scruffy.Commands.Slash;
 
 
-public class Role(DiscordSocketClient discordSocketClient,
-    IServiceScopeFactory serviceScopeFactory) : InteractionModuleBase
+public class Role : InteractionModuleBase
 {
     [SlashCommand("role",
         "Command to configure reaction, role, and message for access.",
@@ -16,6 +12,7 @@ public class Role(DiscordSocketClient discordSocketClient,
         RunMode.Async)]
     public async Task SetupAsync(string messageId,
         string emote,
+        string label,
         IRole role)
     {
         await DeferAsync(true);
@@ -28,57 +25,16 @@ public class Role(DiscordSocketClient discordSocketClient,
             return;
         }
 
-        var scope = serviceScopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ScruffyDbContext>();
-        var existingRole = await dbContext.Roles.FirstOrDefaultAsync(x =>
-                x.Emote.Equals(emote) &&
-                x.RoleId.Equals(role.Id.ToString()) &&
-                x.MessageId.Equals(messageId))
-            .ConfigureAwait(false);
+        var componentBuilder = new ComponentBuilder()
+            .WithButton(label,
+                $"rr:{role.Id}",
+                emote: new Emoji(emote));
 
-        if (existingRole != null)
+        await Context.Channel.ModifyMessageAsync(validMessage.Id, (properties) =>
         {
-            await FollowupAsync("Role configurations must be unique.");
-            return;
-        }
+            properties.Components = new Optional<MessageComponent>(componentBuilder.Build());
+        });
 
-        var newRole = new Data.Entities.Role
-        {
-            GuildId = Context.Guild.Id.ToString(),
-            ChannelId = Context.Channel.Id.ToString(),
-            MessageId = messageId,
-            Emote = emote,
-            RoleId = role.Id.ToString(),
-        };
-
-        var emoteParts = emote.TrimStart('<').TrimEnd('>').Split(':', StringSplitOptions.RemoveEmptyEntries);
-
-        IEmote guildEmote;
-
-        if (emoteParts.Length > 1)
-        {
-            guildEmote = Context
-                .Guild
-                .Emotes
-                .FirstOrDefault(x => x.Id == ulong.Parse(emoteParts[0]));
-        }
-        else
-        {
-            guildEmote = new Emoji(emoteParts[0]);
-        }
-
-        await validMessage
-            .AddReactionAsync(guildEmote)
-            .ConfigureAwait(false);
-
-        await dbContext
-            .Roles
-            .AddAsync(newRole)
-            .ConfigureAwait(false);
-        await dbContext
-            .SaveChangesAsync()
-            .ConfigureAwait(false);
-
-        await FollowupAsync("Reaction role has been successfully added.");
+        await FollowupAsync("Role button has been successfully added.");
     }
 }
