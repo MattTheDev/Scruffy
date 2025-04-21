@@ -59,8 +59,8 @@ public class Points(IServiceScopeFactory serviceScopeFactory,
         embedBuilder.AddField(new EmbedFieldBuilder
         {
             IsInline = true,
-            Name = "Stats",
-            Value = userList.Select(x => $"{x.Item1} - {x.Item2}\r\n")
+            Name = "Leaders",
+            Value = string.Join(' ', userList.Select(x => $"{x.Item1} - {x.Item2}\r\n"))
         });
 
         await FollowupAsync(embed: embedBuilder.Build());
