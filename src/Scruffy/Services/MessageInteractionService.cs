@@ -6,7 +6,8 @@ using Scruffy.Data;
 namespace Scruffy.Services;
 
 public class MessageInteractionService(DiscordSocketClient discordSocketClient,
-    IServiceScopeFactory serviceScopeFactory)
+    IServiceScopeFactory serviceScopeFactory,
+    ILogger<MessageInteractionService> logger)
 {
     public void Init()
     {
@@ -29,6 +30,7 @@ public class MessageInteractionService(DiscordSocketClient discordSocketClient,
 
         if (reactionRole == null)
         {
+            logger.LogInformation("Role not found")
             return;
         }
 
@@ -46,16 +48,19 @@ public class MessageInteractionService(DiscordSocketClient discordSocketClient,
         {
             if (hasRole)
             {
+                logger.LogInformation("Removing role")
                 await guildUser.RemoveRolesAsync([ulong.Parse(reactionRole.RoleId)]);
             }
             else
             {
+                logger.LogInformation("Adding role")
                 await guildUser.AddRoleAsync(ulong.Parse(reactionRole.RoleId));
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // It's fine. This is fine. TODO MS - Logging
+            logger.LogError(ex, "There was an issue adding or removing the role");
         }
     }
 }
