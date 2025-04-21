@@ -30,7 +30,7 @@ public class MessageInteractionService(DiscordSocketClient discordSocketClient,
 
         if (reactionRole == null)
         {
-            logger.LogInformation("Role not found")
+            logger.LogInformation("Role not found");
             return;
         }
 
@@ -48,12 +48,12 @@ public class MessageInteractionService(DiscordSocketClient discordSocketClient,
         {
             if (hasRole)
             {
-                logger.LogInformation("Removing role")
+                logger.LogInformation("Removing role");
                 await guildUser.RemoveRolesAsync([ulong.Parse(reactionRole.RoleId)]);
             }
             else
             {
-                logger.LogInformation("Adding role")
+                logger.LogInformation("Adding role");
                 await guildUser.AddRoleAsync(ulong.Parse(reactionRole.RoleId));
             }
         }
