@@ -21,6 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\User\" />
+    <Folder Include="Commands\Message\" />
   </ItemGroup>
 </Project>

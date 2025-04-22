@@ -21,6 +21,6 @@ public class BotCommandService(DiscordSocketClient discordSocketClient,
             var ctx = new SocketInteractionContext<SocketSlashCommand>(discordSocketClient, interaction);
             await interactionService.ExecuteCommandAsync(ctx, serviceProvider)
                 .ConfigureAwait(false);
-        };
+        };  
     }
 }
