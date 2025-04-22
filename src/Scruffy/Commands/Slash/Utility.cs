@@ -79,4 +79,20 @@ Value = $"Servers: {serverCount}\r\n" +
 
         await FollowupAsync(embed: embedBuilder.Build());
     }
+
+    [SlashCommand("echo",
+        "Echo in an embed!",
+        true,
+        RunMode.Async)]
+    public async Task EchoAsync(string message)
+    {
+        await DeferAsync();
+
+        var embedBuilder = new EmbedBuilder
+        {
+            Description = message
+        };
+
+        await FollowupAsync(embed: embedBuilder.Build());
+    }
 }

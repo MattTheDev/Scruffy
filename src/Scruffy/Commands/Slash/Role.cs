@@ -17,8 +17,10 @@ public class Role : InteractionModuleBase
     {
         await DeferAsync();
 
-        var embedBuilder = new EmbedBuilder();
-        embedBuilder.Description = body;
+        var embedBuilder = new EmbedBuilder
+        {
+            Description = body
+        };
 
         var componentBuilder = new ComponentBuilder()
             .WithButton(label,
